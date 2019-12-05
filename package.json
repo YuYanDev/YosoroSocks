@@ -1,10 +1,11 @@
 {
-  "name": "yosorosocks",
+  "name": "yosorosocks-core",
   "version": "0.0.1",
   "description": "websocket proxy",
-  "main": "index.js",
+  "main": "bin/exports.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev:server": "nodemon bin/start-server.js",
+    "dev:local": "nodemon bin/start-local.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/YuYanDev/YosoroSocks/issues"
   },
-  "homepage": "https://github.com/YuYanDev/YosoroSocks#readme"
+  "homepage": "https://github.com/YuYanDev/YosoroSocks#readme",
+  "devDependencies": {
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0"
+  },
+  "dependencies": {
+    "ws": "^7.2.0"
+  }
 }
