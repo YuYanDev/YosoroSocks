@@ -1,0 +1,19 @@
+{
+  "name": "yosorosocks",
+  "version": "0.0.1",
+  "description": "websocket proxy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuYanDev/YosoroSocks.git"
+  },
+  "author": "YuYan",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/YuYanDev/YosoroSocks/issues"
+  },
+  "homepage": "https://github.com/YuYanDev/YosoroSocks#readme"
+}
