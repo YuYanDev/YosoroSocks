@@ -1,51 +1,27 @@
-import WebSocket from "ws";
-import { clientCheckShakeHands } from "./core/shake-hands";
+import YosoroSocks from './core/core'
+import command from 'commander'
 
-class YosoroSocksClient {
-  constructor(props) {
-    this.config = props;
-    this.client = null;
-    this.shakeHandsStatus = false;
-    this.clientInfo = {
-      version: 1
-    };
-  }
+command
+    // .version(constants.VERSION)
+    .option('-m --method <method>', 'encryption method, default: aes-256-cfb')
+    .option('-k --password <password>', 'password')
+    .option('-s --server-address <address>', 'server address')
+    .option('-p --server-port <port>', 'server port, default: 8388')
+    .option('-b --local-address <address>', 'local binding address, default: 127.0.0.1')
+    .option('-l --local-port <port>', 'local port, default: 1080')
+    .option('--log-level <level>', 'log level(debug|info|warn|error|fatal)', /^(debug|info|warn|error|fatal)$/i, 'info')
+    .option('--log-file <file>', 'log file')
+    .parse(process.argv);
 
-  mounted(message) {
-    if (message.indexOf("shake-hands ") !== -1) {
-      if (clientCheckShakeHands(message)) {
-        this.shakeHandsStatus = true;
-        console.log("握手成功");
-      } else {
-        console.log("握手失败");
-      }
-    } else {
-      if (this.shakeHandsStatus === false) {
-        console.log(
-          message.indexOf("shake-hands") === -1 &&
-            message.indexOf("shake-hands ") !== -1
-            ? "连接中断"
-            : "首次握手"
-        );
-      } else {
-        //正常
-        console.log(message);
-      }
-    }
-  }
-  created() {
-    this.client.send("shake-hands " + JSON.stringify(this.clientInfo));
-  }
-  destoryed() {}
-  init() {
-    this.client = new WebSocket("ws://localhost:8080/ws");
-    this.client.on("open", () => this.created());
-    this.client.on("message", message => this.mounted(message));
-    this.client.on("close", () => this.destoryed());
-  }
-}
+let YosoroSocksClient = new YosoroSocks({
+    localAddress: command.localAddress || '127.0.0.1',
+    localPort: command.localPort || 1080,
+    serverAddress: command.serverAddress || '127.0.0.1',
+    serverPort: command.serverPort || 8388,
+    password: command.password || 'shadowsocks-over-websocket',
+    method: command.method || 'aes-256-cfb'
+}, true);
 
-setTimeout(() => {
-  let test = new YosoroSocksClient();
-  test.init();
-}, 1500);
+YosoroSocksClient.setLogLevel(command.logLevel);
+YosoroSocksClient.setLogFile(command.logFile);
+YosoroSocksClient.bootstrap();
