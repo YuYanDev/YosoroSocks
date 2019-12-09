@@ -2,7 +2,7 @@
   "name": "yosorosocks-core",
   "version": "0.0.1",
   "description": "websocket proxy",
-  "main": "bin/exports.js",
+  "main": "src/core/core.js",
   "scripts": {
     "dev:server": "nodemon bin/start-server.js",
     "dev:local": "nodemon bin/start-local.js"
